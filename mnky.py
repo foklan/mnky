@@ -1,36 +1,67 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
+
+# +----------------------------------------------------------------------+
+# | mnky 1.3                                                             |
+# | created by Filip Klocan                                              |
+# | Script works only with Python 3                                      |
+# | If you need to run it with python2 then use the older version 1.2    |
+# | This script is used for automated SAMs activation                    |
+# | It takes 2 arguments, response_file and host:port of sam-management  |
+# +----------------------------------------------------------------------+
+
 import re
 import subprocess
-import optparse
-import time
+from optparse import OptionParser
+from time import sleep
 
 
-class Handler:
+class Mnky:
     def get_arguments(self):
-        parser = optparse.OptionParser()
-        parser.add_option("-s", "--source", dest="source", help="Source text file.")
+        parser = OptionParser()
+        parser.add_option("-f", "--file", dest="file", help="Source response file.")
+        parser.add_option("-k", "--host", dest="host", help="IP:PORT of sam-management")
+        parser.add_option("-t", "--delay", dest="delay", help="Delay between POST requests, default 1s")
         options, arguments = parser.parse_args()
         return options
 
     def find_ids(self):
-        file_path = self.get_arguments()
-        with open(file_path.source, 'r') as file:
-            data = file.read()
-            return re.findall(r';(\w\w\w\w\w\w\w\w);C', data)
+        parser_options = self.get_arguments()
+        with open(parser_options.file, 'r') as file:
+            response_file = file.read()
+            return re.findall(r';(\w\w\w\w\w\w\w\w);C', response_file)
 
-    def command_executer(self, sam_id):
-        for i in range(len(sam_id)):
-            subprocess.call('curl -X POST "https://172.31.170.34:30035/sam-management/v1/sams/'+sam_id[i]+'\" --insecure -H \"Content-Type: application/json\" -H \"X-Auth-Business-Entity-Id: 0\" -H \"X-Auth-Business-Entity-Name: notUsedHeader\" -H \"X-Auth-Business-Entity-Role: ts\" -d \'{\"status\": \"ACTIVE\"}\'', shell=True)
-            time.sleep(1)
-            subprocess.call("echo", shell=True)
+    def command_executer(self, sam_id, host):
+        if self.get_arguments().host is None:
+            print("You must specify HOST:PORT!")
+        else:
+            confirmation = input(f"script will now execute activation process! \n Number of SAMs: {len(sam_id)} \n File: {self.get_arguments().file}\n Host: {self.get_arguments().host} \nDo you want to continue? (yes/No): ")
+            if (confirmation == 'yes' or confirmation == 'y') and self.get_arguments().host != None:
+                for i in range(len(sam_id)):
+                    subprocess.call(f'curl -X POST "https://{host}/sam-management/v1/sams/{sam_id[i]}' + '\" --insecure -H \"Content-Type: application/json\" -H \"X-Auth-Business-Entity-Id: 0\" -H \"X-Auth-Business-Entity-Name: notUsedHeader\" -H \"X-Auth-Business-Entity-Role: ts\" -d \'{\"status\": \"ACTIVE\"}\'', shell=True)
+                    #print(f'curl -X POST "https://{host}/sam-management/v1/sams/{sam_id[i]}' + '\" --insecure -H \"Content-Type: application/json\" -H \"X-Auth-Business-Entity-Id: 0\" -H \"X-Auth-Business-Entity-Name: notUsedHeader\" -H \"X-Auth-Business-Entity-Role: ts\" -d \'{\"status\": \"ACTIVE\"}\'')
+                    if self.get_arguments().delay is None:
+                        sleep(1)
+                    else:
+                        sleep(int(self.get_arguments().delay))
+                    subprocess.call("echo", shell=True)
+            else:
+                print("Script will now exit...")
+                exit()
 
-    def start(self):
+    def main(self):
         try:
-            self.command_executer(self.find_ids())
+            self.command_executer(self.find_ids(), self.get_arguments().host)
         except TypeError:
-            print("You must specify the source text file option.\n"
-                  "Try 'python2 mnky.py --help' for more information.")
+            print("You must specify the source response file and host:port!\n"
+                  "Try run mnky with --help option for more information.")
+        except KeyboardInterrupt:
+            print("\nExitting script...")
+            exit()
+        except FileNotFoundError:
+            print(f"{self.get_arguments().file}: No such file")
+        finally:
+            exit()
 
 
-test = Handler()
-test.start()
+test = Mnky()
+test.main()
