@@ -25,7 +25,7 @@ class Mnky:
         return options
 
     # reads response_file and returns LIST of SAM IDs
-    def find_ids_new(self):
+    def find_ids(self):
         outlist = []
         templist = []
         parser_options = self.get_arguments()
@@ -68,7 +68,7 @@ class Mnky:
 
     def main(self):
         try:
-            self.command_executer(self.find_ids_new(), self.get_arguments().host)
+            self.command_executer(self.find_ids(), self.get_arguments().host)
         except TypeError:
             print("You must specify the source response file and host:port!\n"
                   "Try run mnky with --help option for more information.")
