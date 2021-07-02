@@ -1,12 +1,11 @@
 #!/usr/bin/python3
 
 # +----------------------------------------------------------------------+
-# | mnky 1.3                                                             |
-# | created by Filip Klocan                                              |
+# | mnky 1.3.1                                                           |
+# | created by Foklan                                                    |
 # | Script works only with Python 3                                      |
-# | If you need to run it with python2 then use the older version 1.2    |
 # | This script is used for automated SAMs activation                    |
-# | It takes 2 arguments, response_file and host:port of sam-management  |
+# | Takes 2 arguments, response_file and host:port of sam-management     |
 # +----------------------------------------------------------------------+
 
 import re
