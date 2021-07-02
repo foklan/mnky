@@ -24,12 +24,26 @@ class Mnky:
         options, arguments = parser.parse_args()
         return options
 
-    def find_ids(self):
+    # reads response_file and returns LIST of SAM IDs
+    def find_ids_new(self):
+        outlist = []
+        templist = []
         parser_options = self.get_arguments()
         with open(parser_options.file, 'r') as file:
-            response_file = file.read()
-            return re.findall(r';(\w\w\w\w\w\w\w\w);C', response_file)
+            response_file = file.readlines()
+            for line in response_file:
+                outlist.append(line.split(";"))  # Append splitted line to outlist
 
+            outlist.pop(0)   # Delete first line where isn't SAM ID
+            outlist.pop(-1)  # Delete lastt line -||-
+            
+            for element in outlist:
+                templist.append(element[3])
+
+        return templist
+
+    # sam_id = LIST of sam IDs
+    # host = STRING
     def command_executer(self, sam_id, host):
         if self.get_arguments().host is None:
             print("You must specify HOST:PORT!")
@@ -37,8 +51,12 @@ class Mnky:
             confirmation = input(f"script will now execute activation process! \n Number of SAMs: {len(sam_id)} \n File: {self.get_arguments().file}\n Host: {self.get_arguments().host} \nDo you want to continue? (yes/No): ")
             if (confirmation == 'yes' or confirmation == 'y') and self.get_arguments().host != None:
                 for i in range(len(sam_id)):
-                    subprocess.call(f'curl -X POST "https://{host}/sam-management/v1/sams/{sam_id[i]}' + '\" --insecure -H \"Content-Type: application/json\" -H \"X-Auth-Business-Entity-Id: 0\" -H \"X-Auth-Business-Entity-Name: notUsedHeader\" -H \"X-Auth-Business-Entity-Role: ts\" -d \'{\"status\": \"ACTIVE\"}\'', shell=True)
-                    #print(f'curl -X POST "https://{host}/sam-management/v1/sams/{sam_id[i]}' + '\" --insecure -H \"Content-Type: application/json\" -H \"X-Auth-Business-Entity-Id: 0\" -H \"X-Auth-Business-Entity-Name: notUsedHeader\" -H \"X-Auth-Business-Entity-Role: ts\" -d \'{\"status\": \"ACTIVE\"}\'')
+                    #subprocess.call(f'curl -X POST "https://{host}/sam-management/v1/sams/{sam_id[i]}' + '\" --insecure -H \
+                    # \\"Content-Type: application/json\" -H \"X-Auth-Business-Entity-Id: 0\" -H \"X-Auth-Business-Entity-Name: \
+                    # notUsedHeader\" -H \"X-Auth-Business-Entity-Role: ts\" -d \'{\"status\": \"ACTIVE\"}\'', shell=True)
+
+                    # Print for debugging
+                    print(f'curl -X POST "https://{host}/sam-management/v1/sams/{sam_id[i]}' + '\" --insecure -H \"Content-Type: applicat\ion/json\" -H \"X-Auth-Business-Entity-Id: 0\" -H \"X-Auth-Business-Entity-Name: notUsedHeader\" -H \"X-Auth-Business-Entity-Role: ts\" -d \'{\"status\": \"ACTIVE\"}\'')
                     if self.get_arguments().delay is None:
                         sleep(1)
                     else:
@@ -50,7 +68,7 @@ class Mnky:
 
     def main(self):
         try:
-            self.command_executer(self.find_ids(), self.get_arguments().host)
+            self.command_executer(self.find_ids_new(), self.get_arguments().host)
         except TypeError:
             print("You must specify the source response file and host:port!\n"
                   "Try run mnky with --help option for more information.")
@@ -65,3 +83,5 @@ class Mnky:
 
 test = Mnky()
 test.main()
+
+
