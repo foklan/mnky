@@ -9,9 +9,9 @@
 
 ---
 script will now execute activation process!
- Number of SAMs: 100
- File: some_response_file.txt
- Host: 10.66.36.100:30001
+Number of SAMs: 100
+File: some_response_file.txt
+Host: 10.66.36.100:30001
 Do you want to continue? (yes/No):
 
 ---
