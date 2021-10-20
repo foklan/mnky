@@ -1,3 +1,4 @@
+
 # mnky script
 **automated activation of SAMs in S&amp;B**
 
@@ -6,13 +7,14 @@
 3. Enter parameters sam-management IP and PORT
 4. Script will show you how many SAMs are in the response file
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+---
 script will now execute activation process!
  Number of SAMs: 100
  File: some_response_file.txt
  Host: 10.66.36.100:30001
 Do you want to continue? (yes/No):
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+---
 
 5. Confirm activation
 
