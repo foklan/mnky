@@ -47,16 +47,16 @@ def command_executer(sam_id, host) -> None:
         confirmation = input(f"script will now execute activation process! \n Number of SAMs: {len(sam_id)} \n File: {get_arguments().file}\n Host: {get_arguments().host} \nDo you want to continue? (yes/No): ")
         if (confirmation == 'yes' or confirmation == 'y') and get_arguments().host != None:
             for i in range(len(sam_id)):
-                #subprocess.call(f'curl -X POST "https://{host}/sam-management/v1/sams/{sam_id[i]}' + 
-                #   '\" --insecure -H \\"Content-Type: application/json\" -H \"X-Auth-Business-Entity-Id: 0\" '+
-                #   '-H \"X-Auth-Business-Entity-Name: notUsedHeader\" -H \"X-Auth-Business-Entity-Role: ts\" -d '+
-                #   '\'{\"status\": \"ACTIVE\"}\'', shell=True)
+                subprocess.call(f'curl -X POST "https://{host}/sam-management/v1/sams/{sam_id[i]}' + 
+                   '\" --insecure -H \\"Content-Type: application/json\" -H \"X-Auth-Business-Entity-Id: 0\" '+
+                   '-H \"X-Auth-Business-Entity-Name: notUsedHeader\" -H \"X-Auth-Business-Entity-Role: ts\" -d '+
+                   '\'{\"status\": \"ACTIVE\"}\'', shell=True)
 
                 # Print for debugging
-                print(f'curl -X POST "https://{host}/sam-management/v1/sams/{sam_id[i]}' + 
-                    '\" --insecure -H \"Content-Type: applicat\ion/json\" -H \"X-Auth-Business-Entity-Id: 0\" -H '+
-                    '\"X-Auth-Business-Entity-Name: notUsedHeader\" -H \"X-Auth-Business-Entity-Role: ts\" -d '+
-                    '\'{\"status\": \"ACTIVE\"}\'')
+                #print(f'curl -X POST "https://{host}/sam-management/v1/sams/{sam_id[i]}' + 
+                #    '\" --insecure -H \"Content-Type: applicat\ion/json\" -H \"X-Auth-Business-Entity-Id: 0\" -H '+
+                #    '\"X-Auth-Business-Entity-Name: notUsedHeader\" -H \"X-Auth-Business-Entity-Role: ts\" -d '+
+                #    '\'{\"status\": \"ACTIVE\"}\'')
                 if get_arguments().delay is None:
                     sleep(1)
                 else:
