@@ -8,11 +8,11 @@
 4. Script will show you how many SAMs are in the response file
 
 ---
-script will now execute activation process!
-Number of SAMs: 100
-File: some_response_file.txt
-Host: 10.66.36.100:30001
-Do you want to continue? (yes/No):
+- script will now execute activation process!
+- Number of SAMs: 100
+- File: some_response_file.txt
+- Host: 10.66.36.100:30001
+- Do you want to continue? (yes/No):
 
 ---
 
@@ -20,10 +20,10 @@ Do you want to continue? (yes/No):
 
 
 **COMMAND SAMPLES:**
-python3 mnky.py -f [RESPONSE FILE] -k [IP:PORT]
-python3 mnky.py -f response_file_2.txt -k 172.164.42.21:30004
-python3 mnky.py --file response_file_2.txt --host 172.164.42.21:30004
+- python3 mnky.py -f [RESPONSE FILE] -k [IP:PORT]
+- python3 mnky.py -f response_file_2.txt -k 172.164.42.21:30004
+- python3 mnky.py --file response_file_2.txt --host 172.164.42.21:30004
 
 **OPTIONAL PARAMETER:**
-parameter -t sets delay (in seconds) between individual activation requests (useful for systems with higher delay)
-python3 mnky.py --file response_file_2.txt --host 172.164.42.21:30004 -t 1
+- parameter -t sets delay (in seconds) between individual activation requests (useful for systems with higher delay)
+- python3 mnky.py --file response_file_2.txt --host 172.164.42.21:30004 -t 1
