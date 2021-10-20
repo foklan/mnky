@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # +----------------------------------------------------------------------+
-# | mnky 1.3.1                                                           |
+# | mnky 1.3.2                                                           |
 # | created by Foklan                                                    |
 # | Script works only with Python 3                                      |
 # | This script is used for automated SAMs activation                    |
